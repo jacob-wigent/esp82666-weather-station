@@ -42,7 +42,7 @@ void handleRoot() {
  Serial.println(temperature);
  Serial.println(humidity);
  
- html.replace("{temperature}", String(temperature) + "°F");
+ html.replace("{temperature}", String(temperature));
  html.replace("{humidity}", String(humidity) + "%");
  html.replace("{heat-index}", String(heat_index) + "°F");
  
