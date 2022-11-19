@@ -1,4 +1,4 @@
-const char MAIN_page[] PROGMEM = R"=====(
+const char dashboard_page[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html lang="en">
 <head>

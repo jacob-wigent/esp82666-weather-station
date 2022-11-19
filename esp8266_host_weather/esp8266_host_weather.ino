@@ -2,16 +2,19 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
+
 #include "index.h" //HTML webpage contents
 
-#include <DHT.h>
+#include "DHT.h"
+#define DHTTYPE DHT11
+#define DHTPIN 5
 
 //SSID and Password of WiFi router
 const char* ssid = "Alcatraz";
 const char* password = "Alcatrazdon4130!";
 
 ESP8266WebServer server(80); //Server on port 80
-DHT dht(5, DHT11);
+DHT dht(DHTPIN, DHTTYPE);
 
 float temperature;
 float humidity;
@@ -24,11 +27,9 @@ unsigned long msecLst;
 // This routine is executed when you open its IP in browser
 //===============================================================
 void handleRoot() {
- String html = MAIN_page; //Read HTML contents
+ String html = dashboard_page; //Read HTML contents
 
- //Fill in values
- 
-  //Only fetch values only x seconds (update_interval)
+ //Only fetch values only x seconds (update_interval)
   unsigned long msec = millis();
     if ((msec - msecLst) > update_interval)  {
         msecLst = msec;
@@ -36,7 +37,8 @@ void handleRoot() {
         humidity = dht.readHumidity();
         heat_index = dht.computeHeatIndex(temperature, humidity);
     }
- 
+
+ //Fill in values 
  Serial.println(temperature);
  Serial.println(humidity);
  
@@ -51,6 +53,9 @@ void handleRoot() {
 //==============================================================
 void setup(void){
   Serial.begin(115200);
+  delay(100);
+
+  pinMode(DHTPIN, INPUT);
   
   WiFi.begin(ssid, password);     //Connect to your WiFi router
   Serial.println("");
